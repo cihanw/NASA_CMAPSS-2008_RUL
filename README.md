@@ -18,3 +18,6 @@
 | BiLSTM-DAE-Trans (2023)| 10.98 | 186 | 16.12 | 2937 | 11.14 | 252 | 18.15 | 3840 |
 | Hierarchical Transformer (SoTA) | **10.61** | **169** | **13.47** | **784** | **10.71** | 202 | 15.87 | **1449** |
 | Proposed Method(Mamba2) | - | - | - | - | - | - | 18.5837 | 2898 |
+
+**Note:** Mamba2 outperformed all studies that do not use the attention mechanism and possesses significantly fewer parameters compared to those utilizing attention.
+
