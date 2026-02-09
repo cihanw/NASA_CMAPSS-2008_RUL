@@ -1,5 +1,9 @@
 ## Performance Comparison (NASA CMAPSS)
 
+**Dataset:** [NASA CMAPSS Jet Engine Simulated Data](https://data.nasa.gov/dataset/cmapss-jet-engine-simulated-data)  
+**Current SoTA Work:** [Sensors 2024, 24(3), 824](https://www.mdpi.com/1424-8220/24/3/824)
+
+
 | Method | FD001 (RMSE) | FD001 (Score) | FD002 (RMSE) | FD002 (Score) | FD003 (RMSE) | FD003 (Score) | FD004 (RMSE) | FD004 (Score) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | BiLSTM (2018) | 13.65 | 295 | 23.18 | 4130 | 13.74 | 317 | 24.86 | 5430 |
