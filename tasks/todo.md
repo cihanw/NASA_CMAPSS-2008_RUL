@@ -16,5 +16,5 @@
 - `python preprocess/fd002_sensor_selection_and_clustering.py` passed inside `.venv`.
 - The FD002 preprocessing run produced 53,759 train rows, 33,991 test rows, `final_k=6`, and best silhouette at k=6.
 - Generated `reports/`, `artifacts/`, `.venv/`, and `.DS_Store` files are kept out through local git exclude; repository `.gitignore` only contains `AGENTS.md`.
-- Committed project snapshot as `3363e6e`.
-- Pushed `main` to `origin/main` at `3363e6e`.
+- Committed and pushed the project snapshot to `origin/main`.
+- Committed and pushed this completed task review as a follow-up.
