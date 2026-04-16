@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+from pathlib import Path
 from sklearn.preprocessing import MinMaxScaler
 
 def load_data(file_path):
@@ -79,12 +80,12 @@ def process_dataframe(df, setting_names, sensor_names, is_test=False, true_rul_d
     return df, scaler, len(features_to_normalize)
 
 def main():
-    # Yollar
-    base_dir = r"C:\Users\Bilge\OneDrive\Masaüstü\CMAPSS-Rul"
-    train_path = os.path.join(base_dir, r"data\raw\train_FD004.txt")
-    test_path = os.path.join(base_dir, r"data\raw\test_FD004.txt")
-    rul_path = os.path.join(base_dir, r"data\raw\RUL_FD004.txt")
-    output_dir = os.path.join(base_dir, r"data\processed")
+    # Yollar repo köküne göre kurulur; script her makinede aynı şekilde çalışır.
+    base_dir = Path(__file__).resolve().parents[1]
+    train_path = base_dir / "data" / "raw" / "train_FD004.txt"
+    test_path = base_dir / "data" / "raw" / "test_FD004.txt"
+    rul_path = base_dir / "data" / "raw" / "RUL_FD004.txt"
+    output_dir = base_dir / "data" / "processed"
     
     os.makedirs(output_dir, exist_ok=True)
     
