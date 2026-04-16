@@ -6,9 +6,9 @@
 - [x] Rewrite `README.md` in English for the current FD002 workflow.
 - [x] Keep machine-local or GitHub-size-blocking files out of the commit without changing repository `.gitignore`.
 - [x] Run verification with the local virtual environment.
-- [ ] Stage the intended local project version.
-- [ ] Commit the local project version.
-- [ ] Push `main` to GitHub so the remote branch reflects the local project state.
+- [x] Stage the intended local project version.
+- [x] Commit the local project version.
+- [x] Push `main` to GitHub so the remote branch reflects the local project state.
 
 ## Review
 
@@ -16,4 +16,5 @@
 - `python preprocess/fd002_sensor_selection_and_clustering.py` passed inside `.venv`.
 - The FD002 preprocessing run produced 53,759 train rows, 33,991 test rows, `final_k=6`, and best silhouette at k=6.
 - Generated `reports/`, `artifacts/`, `.venv/`, and `.DS_Store` files are kept out through local git exclude; repository `.gitignore` only contains `AGENTS.md`.
-- Commit and push are still pending.
+- Committed project snapshot as `3363e6e`.
+- Pushed `main` to `origin/main` at `3363e6e`.
