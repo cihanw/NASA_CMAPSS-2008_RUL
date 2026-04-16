@@ -1,0 +1,46 @@
+# Ignore everything by default.
+*
+
+# Allow Git to walk directories so nested allow-rules can match.
+!*/
+
+# Keep this policy file.
+!.gitignore
+
+# Keep project data.
+!data/
+!data/**
+
+# Keep source code and runnable project definitions.
+!**/*.py
+!**/*.ipynb
+!requirements*.txt
+!pyproject.toml
+!setup.py
+!setup.cfg
+!tox.ini
+!pytest.ini
+!environment.yml
+!environment.yaml
+
+# Keep generated and local-only files out even when nested under allowed paths.
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environments and machine/editor noise.
+.venv/
+venv/
+env/
+ENV/
+.env
+.env.*
+.DS_Store
+.idea/
+.vscode/
