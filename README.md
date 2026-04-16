@@ -1,20 +1,25 @@
-# NASA C-MAPSS 2008 RUL Projesi
+# NASA C-MAPSS FD002 RUL Workflow
 
-Bu repo, NASA C-MAPSS veri seti ile Remaining Useful Life (RUL) tahmini çalışmasını içerir. Repoda yalnızca projeyi çalıştırmak için gereken veri dosyaları, preprocess kodları, eğitim notebook/scriptleri ve bağımlılık listesi tutulur. Sunumlar, raporlar, model çıktıları, grafikler ve lokal çalışma dosyaları `.gitignore` ile dışarıda bırakılır.
+This repository contains the current local version of the NASA C-MAPSS Remaining Useful Life (RUL) workflow for the FD002 subset.
 
-## İçerik
+The intended run order is:
 
-- `data/raw/`: FD001-FD004 ham C-MAPSS `.txt` dosyaları ve RUL dosyaları.
-- `data/processed/`: Eğitim akışında kullanılan işlenmiş `.csv` dosyaları.
-- `Preprocess/`: FD004 preprocess ve sekans uzunluğu analiz kodları.
-- `scripts/fd002_sensor_selection_and_clustering.py`: FD002 operasyon rejimi kümeleme ve sensör seçimi hazırlığı.
-- `notebooks/`: FD002 klasik model ve Attention-LSTM eğitim notebookları.
-- `model_script/mamba2.ipynb`: FD004 için deneysel Mamba2 eğitim notebooku.
-- `requirements.txt`: Python bağımlılıkları.
+1. Run `preprocess/fd002_sensor_selection_and_clustering.py`.
+2. Continue in the notebooks under `notebooks/`; the remaining preparation, training, evaluation, and artifact writing are handled there.
 
-## Kurulum
+## Project Layout
 
-Python paketlerini global ortama kurma; proje için sanal ortam kullan.
+- `data/raw/`: NASA C-MAPSS raw train, test, and RUL text files.
+- `data/processed/`: FD002 operating-regime CSV files produced by the preprocessing script.
+- `preprocess/fd002_sensor_selection_and_clustering.py`: clusters FD002 operating conditions, ranks sensors, and writes the processed FD002 regime files.
+- `notebooks/fd002_svm_rf_training.ipynb`: classical FD002 model training with SVR and Random Forest.
+- `notebooks/fd002_attention_lstm_training.ipynb`: FD002 Attention-LSTM training workflow.
+- `artifacts/`: generated model outputs, metrics, predictions, and training history when notebooks have been run locally.
+- `requirements.txt`: Python package requirements for the project environment.
+
+## Environment Setup
+
+Use a virtual environment for all Python commands.
 
 ```bash
 cd /Users/cihan/Desktop/CMAPSS
@@ -24,86 +29,45 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-## Çalıştırma Sırası
+## Run Order
 
-1. Ham verilerin yerinde olduğunu kontrol et:
-
-```bash
-ls data/raw
-```
-
-2. FD004 train/test sekans uzunluklarını incele:
+First, generate or refresh the FD002 operating-regime files:
 
 ```bash
-python Preprocess/analyze_sequence_lengths.py
+source .venv/bin/activate
+python preprocess/fd002_sensor_selection_and_clustering.py
 ```
 
-3. FD004 verisini işle:
+The script reads:
 
-```bash
-python Preprocess/preprocess.py
-```
+- `data/raw/train_FD002.txt`
+- `data/raw/test_FD002.txt`
 
-Bu adım şu dosyaları üretir veya günceller:
-
-- `data/processed/train_FD004_processed.csv`
-- `data/processed/test_FD004_processed.csv`
-
-4. FD002 için operasyon rejimi ve sensör seçimi hazırlığını çalıştır:
-
-```bash
-python scripts/fd002_sensor_selection_and_clustering.py
-```
-
-Bu adım eğitim notebooklarının kullandığı şu dosyaları üretir veya günceller:
+It writes the notebook inputs:
 
 - `data/processed/fd002_train_regimes.csv`
 - `data/processed/fd002_test_regimes.csv`
 
-Script ayrıca yerel analiz grafikleri ve tabloları üretir; bunlar `reports/` altında kalır ve repoya alınmaz.
+It also writes analysis tables and figures under `reports/` when the script is run.
 
-5. FD002 klasik modellerini eğit:
-
-```bash
-jupyter nbconvert --to notebook --execute notebooks/fd002_svm_rf_training.ipynb --inplace
-```
-
-Bu notebook SVR ve Random Forest modellerini eğitir. Model dosyaları, tahminler ve metrikler `artifacts/` altında üretilir; bu klasör repoya alınmaz.
-
-6. FD002 Attention-LSTM modelini eğit:
+After that, use the notebooks for the rest of the workflow:
 
 ```bash
-jupyter nbconvert --to notebook --execute notebooks/fd002_attention_lstm_training.ipynb --inplace
+jupyter notebook notebooks/fd002_svm_rf_training.ipynb
+jupyter notebook notebooks/fd002_attention_lstm_training.ipynb
 ```
 
-Bu notebook PyTorch tabanlı Attention-LSTM modelini eğitir. Model state dosyaları ve eğitim çıktıları `artifacts/` altında üretilir; bu klasör repoya alınmaz.
-
-7. İsteğe bağlı olarak FD004 Mamba2 denemesini çalıştır:
+For non-interactive execution:
 
 ```bash
-jupyter notebook model_script/mamba2.ipynb
+python -m jupyter nbconvert --to notebook --execute notebooks/fd002_svm_rf_training.ipynb --inplace
+python -m jupyter nbconvert --to notebook --execute notebooks/fd002_attention_lstm_training.ipynb --inplace
 ```
 
-Bu notebook deneysel/opsiyonel akıştır. `mamba_ssm` paketi gerekiyorsa ayrıca kurulmalıdır. Notebook, FD004 preprocess çıktıları hazır olduktan sonra kullanılmalıdır.
+The notebooks contain the feature preparation, model training, evaluation, and output-writing steps needed after the FD002 preprocessing script has been run.
 
-## Git Politikası
+## Notes
 
-Repoya alınanlar:
-
-- Ham ve işlenmiş veri dosyaları (`data/raw/*.txt`, `data/processed/*.csv`)
-- Preprocess kodları
-- Eğitim script/notebookları
-- `requirements.txt`
-- `README.md`
-- `.gitignore`
-
-Repoya alınmayanlar:
-
-- `reports/`
-- `artifacts/`
-- `models/`
-- `kaynaklar/`
-- `.venv/`
-- Notebook cache dosyaları
-- Python cache dosyaları
-- `.DS_Store`
+- The current repository flow is FD002-focused.
+- `AGENTS.md` is intentionally ignored by Git.
+- Large generated artifacts and local virtual-environment files should stay machine-local unless Git LFS is configured intentionally.
